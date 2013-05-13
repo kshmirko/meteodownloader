@@ -10,10 +10,10 @@ import urllib
 
 from parse.parse import parse_observation, ParserException
 data=None
-#with open('meteo.html') as f:
-#    data = f.read()
+with open('meteo.html') as f:
+    data = f.read()
 
-data = urllib.urlopen('http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2013&MONTH=05&FROM=0712&TO=0900&STNM=31977').read()
+#data = urllib.urlopen('http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2013&MONTH=05&FROM=0712&TO=0900&STNM=31977').read()
 
 
 
