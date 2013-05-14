@@ -1,14 +1,3 @@
-meteodownloader
-===============
-
-This program used to download and store meteorological data in netCDF format.
-
-Aims of the program:
--  Downloads the set of upper-air sounding data and stores it in netcdf3 format
-
-
-Output file structure presented below
-
 dimensions:
 	time = UNLIMITED ; // (58 currently)
 	Len = 300 ;

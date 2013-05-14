@@ -22,7 +22,7 @@ def parse_h2(line):
     r = regex.match(line).groupdict()
     
     stid = int(r['stid'])
-    date = datetime.strptime(r['time'],'%HZ %d %B %Y')
+    date = datetime.strptime(r['time'],'%HZ %d %b %Y')
     print stid, date
     return stid, date
 
@@ -33,8 +33,7 @@ def parse_pre1(line):
     
 def parse_pre2(line):
     sfile = StringIO.StringIO(line)
-    ctx = readMeteoCtx(sfile)
-    print ctx
+    ctx = readMeteoCtx(sfile)    
     return ctx
 
 def parse_h3(line):
@@ -46,26 +45,28 @@ def parse_observation(tags):
         print "Header OK"
         stid, date = parse_h2(tmp.text)
     else:
-        raise ParserException("Can't parse string '%s'"%(tmp.text))
+        raise ParserException("Can't parse string '%s'\n"%(tmp.text))
 
     tmp = tags.pop()
     if tmp.tag=='pre':
         print "data OK"
         meteo = parse_pre1(tmp.text)
     else:
-        raise ParserException("Can't parse string '%s'"%(tmp.text))
+        raise ParserException("Can't parse string '%s'\n"%(tmp.text))
         
     tmp = tags.pop()
     if tmp.tag=='h3':
         print "Indices title OK"
         parse_h3(tmp.text)
     else:
-        raise ParserException("Can't parse string '%s'"%(tmp.text))
+        raise ParserException("Can't parse string '%s'\n"%(tmp.text))
         
     tmp = tags.pop()
     if tmp.tag=='pre':
         print "Indices OK"
         ctx = parse_pre2(tmp.text)
     else:
-        raise ParserException("Can't parse string '%s'"%(tmp.text))
+        raise ParserException("Can't parse string '%s'\n"%(tmp.text))
     
+    
+    return [stid, date, meteo, ctx]
