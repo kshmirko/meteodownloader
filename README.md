@@ -9,10 +9,10 @@ Aims of the program:
 
 Output file structure presented below
 
-dimensions:
+    dimensions:
 	time = UNLIMITED ; // (58 currently)
 	Len = 300 ;
-variables:
+    variables:
 	float Time(time) ;
 		Time:units = "days since 1984-02-08 00:00:00" ;
 		Time:calendar = "standard" ;
