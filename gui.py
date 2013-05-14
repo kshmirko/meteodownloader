@@ -9,7 +9,7 @@ Created on Tue May 14 12:48:01 2013
 from Tkinter import *
 from tkFileDialog import asksaveasfilename
 import ttk
-from datetime import datetime
+from datetime import datetime, timedelta
 import subprocess
 
 def vp_start_gui():
@@ -135,13 +135,31 @@ class Meteo_Downloader:
         txtFName.set(self.ncfname)
         
     def on_download(self):
-        
-        start = datetime.strptime(txtStart.get(),'%Y-%m')
-        url = format+ (formaturl % (start.year, start.month, txtStID.get()))
-        print url
-        with open('meteo.ini','wt') as f:
-            print >> f, txtFName.get()            
-            print >> f, url
+        lines = []
+        startt = datetime.strptime(txtStart.get(),'%Y-%m')
+        if not ('all' in txtStop.get()):
+    	    stopt  = datetime.strptime(txtStop.get(),'%Y-%m')
+    	
+    	    for year in range(startt.year, stopt.year+1):
+    		for month in range(1,13):
+    		    dt = datetime(year,month,1)
+		    if (dt>=startt)&(dt<=stopt):
+			url = format+ (formaturl % (dt.year, dt.month, txtStID.get()))
+    			print url
+    			lines.append('output/%04d-%02d.nc4'%(year,month))
+    			lines.append(url)
+    			
+	else:
+	    url = format+ (formaturl % (startt.year, startt.month, txtStID.get()))
+	    lines.append(txtFName.get())
+	    lines.append(url)
+	    
+	    
+	
+    	with open('meteo.ini','wt') as f:
+    	    for i in lines:
+    		print >> f, i         
+	    
         p = subprocess.Popen(['python2', 'download.py'])
         
         
